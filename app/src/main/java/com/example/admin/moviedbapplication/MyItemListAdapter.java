@@ -1,11 +1,15 @@
 package com.example.admin.moviedbapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.moviedbapplication.model.Result;
@@ -38,11 +42,18 @@ public class MyItemListAdapter  extends RecyclerView.Adapter<MyItemListAdapter.V
     public void onBindViewHolder(MyItemListAdapter.ViewHolder holder, int position) {
         Result r = resultList.get( position );
 
+        holder.result = r;
+
         Glide.with( context )
-                .load( r.getPosterPath() )
-                .centerCrop()
-                .placeholder(R.drawable.loading_spinner)
-                .into(myImageView);
+                .load( "https://image.tmdb.org/t/p/w640" + r.getPosterPath() )
+                .into( holder.cover );
+
+        holder.title.setText( r.getTitle() );
+        holder.releaseDate.setText( r.getReleaseDate().substring( 0, 4) );
+
+//        double score = r.getVoteAverage()*10;
+        int score = (int) (r.getVoteAverage()*10);
+        holder.rating.setText( score + "% (" + r.getVoteCount() + " votes)" );
     }
 
     @Override
@@ -53,11 +64,28 @@ public class MyItemListAdapter  extends RecyclerView.Adapter<MyItemListAdapter.V
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView cover;
+        TextView title, releaseDate, rating;
+        Result result;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "onClick: clicked");
+                    //Mac's way
+//                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+//                    intent.putExtra("item", item);
+//                    context.startActivity(intent);
+                    Toast.makeText( context, result.getTitle(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
             cover = itemView.findViewById( R.id.ivMovieCover );
+            title = itemView.findViewById( R.id.tvMovieTitle );
+            releaseDate = itemView.findViewById( R.id.tvMovieReleaseDate );
+            rating = itemView.findViewById( R.id.tvMovieRating );
         }
     }
 }

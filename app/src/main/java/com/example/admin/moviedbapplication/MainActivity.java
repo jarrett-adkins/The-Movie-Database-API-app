@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         //bind the views
         logo = findViewById( R.id.tvLogo );
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 /*
 Screen should contain:
 X 1) a search button that reveals a text enter box and a submit button.
-2) Search the movie DB by movies using the query text entered when the user taps "submit" button.
-3) Show a list of movies found in the same screen.
+X 2) Search the movie DB by movies using the query text entered when the user taps "submit" button.
+X 3) Show a list of movies found in the same screen.
 4) When scrolled to the bottom of the list, start lazy loading next set of movies and append it to the list.
  */
