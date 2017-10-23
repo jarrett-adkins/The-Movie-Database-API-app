@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Movie DB Application</string>
+    <string name="result">result</string>
 </resources>

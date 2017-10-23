@@ -74,11 +74,11 @@ public class MyItemListAdapter  extends RecyclerView.Adapter<MyItemListAdapter.V
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG, "onClick: clicked");
-                    //Mac's way
-//                    Intent intent = new Intent(context, ProductDetailsActivity.class);
-//                    intent.putExtra("item", item);
-//                    context.startActivity(intent);
-                    Toast.makeText( context, result.getTitle(), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra( context.getString(R.string.result), result);
+                    context.startActivity(intent);
+//                    Toast.makeText( context, result.getTitle(), Toast.LENGTH_SHORT).show();
                 }
             });
 

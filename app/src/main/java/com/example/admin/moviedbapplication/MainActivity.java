@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     int page = 1;
+    String query = "";
 
     ImageView logo;
     LinearLayout submitLayout;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener( new EndlessRecyclerViewScrollListener((LinearLayoutManager) layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Toast.makeText(MainActivity.this, "onLoadMore", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "onLoadMore", Toast.LENGTH_SHORT).show();
                 nextPage();
             }
         });
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchMovies() {
+        query = queryView.getText().toString();
+
         RetrofitHelper.getMovies( queryView.getText().toString(), page )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribeOn(  Schedulers.io() )
@@ -141,7 +144,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextPage() {
+        final int positionStart = resultList.size();
+        final int itemCount = 20;
         page++;
+
+        RetrofitHelper.getMovies( query, page )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribeOn(  Schedulers.io() )
+                .subscribe(new Observer<MovieDB>() {
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                        status.setText( "Searching...");
+                    }
+
+                    @Override
+                    public void onNext(@NonNull MovieDB movieDB) {
+                        Log.d(TAG, "onNext: ");
+
+                        for( Result r : movieDB.getResults() )
+                            resultList.add( r );
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d(TAG, "onError: " + e.toString());
+                        status.setText( "No Results.");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+
+                        myItemListAdapter.notifyItemRangeChanged( positionStart, itemCount );
+                    }
+                });
     }
 }
 
@@ -151,4 +190,7 @@ X 1) a search button that reveals a text enter box and a submit button.
 X 2) Search the movie DB by movies using the query text entered when the user taps "submit" button.
 X 3) Show a list of movies found in the same screen.
 4) When scrolled to the bottom of the list, start lazy loading next set of movies and append it to the list.
+
+You get more detail when you search for on movie individually
+https://api.themoviedb.org/3/movie/10117?api_key=d5ec8c86179f1ce56a907af60e88e07c
  */

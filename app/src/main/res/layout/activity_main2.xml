@@ -18,15 +18,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvLogo"
             android:src="@drawable/ic_primarylogo_green"
-            android:layout_marginTop="@dimen/layout_top_margin"
-            android:layout_marginLeft="@dimen/layout_top_margin"
-            android:layout_marginRight="@dimen/layout_top_margin"/>
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:layout_marginRight="@dimen/layout_margin"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_top_margin"
+            android:layout_marginRight="@dimen/layout_margin"
             android:gravity="left">
 
             <Button
@@ -52,7 +52,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:hint="Movie"
-                    android:layout_marginTop="@dimen/layout_top_margin"/>
+                    android:layout_marginTop="@dimen/layout_margin"/>
 
                 <Button
                     android:id="@+id/btnSubmit"
